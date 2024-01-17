@@ -1,0 +1,80 @@
+.film-container {
+    position: fixed;
+    bottom: 0; 
+    width: 100%; 
+    aspect-ratio: 32 / 15; 
+    overflow: hidden; 
+    perspective: 5px; 
+}
+
+.close { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    background-color: #fff; 
+    border: 1px #000 solid; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    cursor: pointer; 
+} 
+
+.film-container .slider-container { 
+    display: flex; 
+    width: 400%; 
+    height: 100%; 
+    transform: translateX(-25%); 
+} 
+
+a { 
+    display: block; 
+    width: calc(100% / 4); 
+    height: 100%; 
+} 
+
+img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+} 
+
+@keyframes active { 
+    0% { 
+        transform: translateX(-25%) translateZ(0px); 
+    } 
+    33.33% { 
+        transform: translateX(-25%) translateZ(-1px); 
+    } 
+    66.66% { 
+        transform: translateX(-50%) translateZ(-1px); 
+    } 
+    100% { 
+        transform: translateX(-50%) translateZ(0px); 
+    } 
+} 
+
+@keyframes activeChild { 
+    0% { 
+        transform: scale(1); 
+    } 
+    33.33% { 
+        transform: scale(0.92); 
+    } 
+    66.66% { 
+        transform: scale(0.92); 
+    } 
+    100% { 
+        transform: scale(1); 
+    } 
+} 
+    
+.slider-container.active { 
+    animation: active 1s forwards linear; 
+} 
+
+.slider-container.active a { 
+    animation: activeChild 1s forwards linear; 
+}
