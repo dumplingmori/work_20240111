@@ -74,7 +74,6 @@ const adsData = [
     lightBoxContainer.appendChild(aElement)
 
     if(lightBoxImg) {
-        console.log(lightBoxImg)
         lightBoxContainer.replaceChild(aElement , lightBoxImg);
     }
   }
