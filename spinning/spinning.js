@@ -38,17 +38,18 @@ const adsData = [
 
   const lightBoxContainer = document.querySelector(".light-box");
   lightBoxContainer.setAttribute('id', 'lightBoxContainer')    
+
+  const closeElement = document.createElement('div')
+  closeElement.setAttribute('class', 'box-close')
+  const closeImg = document.createElement('img')
+  closeImg.setAttribute('src', './images/close.png')
+  closeElement.appendChild(closeImg)
+  closeElement.addEventListener('click', () => {
+    lightBoxContainer.style.display = "none";
+  })
+  lightBoxContainer.appendChild(closeElement)
   const lightBoxClose = document.querySelector(".box-close");
 
-  document.addEventListener('touchstart', e => {
-    touchstartX = e.changedTouches[0].screenX
-  })
-  
-  document.addEventListener('touchend', e => {
-    touchendX = e.changedTouches[0].screenX
-    slide()
-  })
-  
   function genSlide(data) {
     const aElement = document.createElement('a')
     aElement.setAttribute('id', data.id);
@@ -64,13 +65,18 @@ const adsData = [
   }
 
   function genLightBox(data) {
-    lightBoxContainer.replaceChildren()
+    const lightBoxImg = document.getElementById('lightBoxImg');
     const aElement = document.createElement('a')
     const imgElement = document.createElement('img')
-    imgElement.setAttribute('id', 'lightBoxImg') 
+    aElement.setAttribute('id', 'lightBoxImg') 
     imgElement.setAttribute('src', data.link)
     aElement.appendChild(imgElement)
     lightBoxContainer.appendChild(aElement)
+
+    if(lightBoxImg) {
+        console.log(lightBoxImg)
+        lightBoxContainer.replaceChild(aElement , lightBoxImg);
+    }
   }
 
   function showLightBox() {
@@ -110,10 +116,10 @@ const adsData = [
     const dataRow = genData()
     if (!slider) return
     slider.replaceChildren()
+    genLightBox(dataRow[0])
     for (let i = 0; i < dataRow.length; i++) {
         slider.appendChild(genSlide(dataRow[i]))
     }
-    genLightBox(dataRow[0])
   }
   
   function slide() {
@@ -153,18 +159,19 @@ const adsData = [
 // =============
 
 var touchstartX = 0;
-var touchstartY = 0;
-var touchendX = 0;
-var touchendY = 0;
+  var touchendX = 0;
 
+  sliderContainer.addEventListener('touchstart', function(event) {
+    touchstartX = event.changedTouches[0].screenX;
+  }, false);
 
-filmContainer.addEventListener('touchstart', function(event) {
-    touchstartX = event.screenX;
-    touchstartY = event.screenY;
-}, false);
+  sliderContainer.addEventListener('touchend', function(event) {
+    touchendX = event.changedTouches[0].screenX;
+      handleSwipe();
+  }, false); 
 
-filmContainer.addEventListener('touchend', function(event) {
-    touchendX = event.screenX;
-    touchendY = event.screenY;
-    handleGesure();
-}, false); 
+  function handleSwipe() {
+      if (touchendX > touchstartX) {
+        slide()
+      }
+  }
